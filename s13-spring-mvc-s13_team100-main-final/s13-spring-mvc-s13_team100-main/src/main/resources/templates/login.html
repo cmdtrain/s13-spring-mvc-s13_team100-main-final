@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/template}"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log-In</title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div layout:fragment="content" class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <p th:if="${param.logout}" class="alert alert-success mt-4">Successfully logged out</p>
+
+            <h2 class="text-center">Log in</h2>
+
+
+            <p th:if="${param.error}" class="alert alert-danger">Username or password is not correct!</p>
+
+            <form th:action="@{/login}" method="POST">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" name="username" id="username" size="24" placeholder="Enter your username" value="mike@mail.com">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password" id="password" size="24" placeholder="Enter your password" value="Qwerty0#"/>
+                </div>
+                <div class="mb-3 text-center">
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                </div>
+            </form>
+
+            <p class="text-center">Don't have an account?
+                <a th:href="@{/users/create}">Register now!</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

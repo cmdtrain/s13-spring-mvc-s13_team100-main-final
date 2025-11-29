@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/template}"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All To-Do Lists of User</title>
+</head>
+<body>
+<div layout:fragment="content" class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 th:text="'All To-Do Lists of ' + ${user.firstName} + ' ' + ${user.lastName}"></h2>
+            <p class="text-muted" th:text="${user.email}"></p>
+        </div>
+        <a class="btn btn-primary"
+           th:href="@{|/todos/create/users/${user.id}|}">Create New ToDo list</a>
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Created at</th>
+            <th>Owner</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="todo, stat : ${todos}">
+            <td th:text="${stat.index + 1}"></td>
+            <td th:text="${todo.id}"></td>
+            <td>
+                <a th:href="@{|/todos/${todo.id}/read|}"
+                   th:text="${todo.title}"></a>
+            </td>
+            <td th:text="${#temporals.format(todo.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${todo.owner.firstName + ' ' + todo.owner.lastName}"></td>
+            <td>
+                <a class="btn btn-sm btn-outline-primary"
+                   th:href="@{|/todos/${todo.id}/update/users/${user.id}|}">Edit</a>
+                <a class="btn btn-sm btn-outline-danger ms-2"
+                   th:href="@{|/todos/${todo.id}/delete/users/${user.id}|}">Remove</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-outline-secondary mt-3" th:href="@{/users/all}">Back to Users</a>
+</div>
+</body>
+</html>

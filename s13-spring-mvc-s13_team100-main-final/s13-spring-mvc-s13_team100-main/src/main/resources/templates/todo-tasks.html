@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/template}"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tasks of ToDo List</title>
+</head>
+<body>
+<div layout:fragment="content" class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 th:text="'All Tasks from \'" + ${todo.title} + "\' ToDo List'"></h2>
+            <p class="text-muted"
+               th:text="'Owner: ' + ${todo.owner.firstName} + ' ' + ${todo.owner.lastName}"></p>
+        </div>
+        <div class="d-flex gap-2">
+            <a class="btn btn-primary"
+               th:href="@{|/tasks/create/todos/${todo.id}|}">Create Task</a>
+            <a class="btn btn-outline-secondary"
+               th:href="@{|/todos/all/users/${todo.owner.id}|}">Go to ToDo Lists</a>
+        </div>
+    </div>
+
+    <h4>Tasks</h4>
+    <table class="table table-striped mb-4">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Priority</th>
+            <th>State</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task, stat : ${tasks}">
+            <td th:text="${stat.index + 1}"></td>
+            <td th:text="${task.id}"></td>
+            <td th:text="${task.name}"></td>
+            <td th:text="${task.priority}"></td>
+            <td th:text="${task.state.name}"></td>
+            <td>
+                <a class="btn btn-sm btn-outline-primary"
+                   th:href="@{|/tasks/${task.id}/update/todos/${todo.id}|}">Update</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <h4>Add collaborator</h4>
+            <form th:action="@{|/todos/${todo.id}/add|}" method="get" class="d-flex gap-2">
+                <select name="collaboratorId" class="form-select">
+                    <option th:each="u : ${users}"
+                            th:value="${u.id}"
+                            th:text="${u.firstName + ' ' + u.lastName}"></option>
+                </select>
+                <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+        </div>
+        <div class="col-md-6 mb-4">
+            <h4>Collaborators</h4>
+            <table class="table table-sm">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="c : ${collaborators}">
+                    <td th:text="${c.id}"></td>
+                    <td th:text="${c.firstName + ' ' + c.lastName}"></td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-danger"
+                           th:href="@{|/todos/${todo.id}/remove?collaboratorId=${c.id}|}">Remove</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

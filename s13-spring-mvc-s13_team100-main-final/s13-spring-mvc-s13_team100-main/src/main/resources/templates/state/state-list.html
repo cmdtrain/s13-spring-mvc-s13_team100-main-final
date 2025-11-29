@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/template}"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tasks of To-Do List</title>
+</head>
+<body>
+<div layout:fragment="content" style="margin: 0 auto; width: max-content">
+
+    <h1>Manage States</h1>
+
+    <a class="btn btn-primary" href="/states/add">Add State</a>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="state: ${states}">
+            <td th:text="${state.name}"></td>
+            <td>
+                <a th:href="|/states/${state.id}/remove|" />
+                delete, rename
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/template}"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create New Task</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div layout:fragment="content" class="container mt-5">
+    <h2 class="text-center">Create New Task</h2>
+    <form th:action="@{|/tasks/create/todos/${todo.id}|}" th:object="${task}" method="post">
+
+        <input type="hidden" name="todoId" th:value="${todo.id}">
+
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" th:field="*{name}" id="name">
+            <div class="invalid-feedback d-block">
+                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="priority" class="form-label">Priority</label>
+            <select name="priority" id="priority" class="form-select" th:field="*{priority}">
+                <option th:each="priority : ${priorities}" th:value="${priority}"
+                        th:text="${priority.name().substring(0, 1) + priority.name().substring(1).toLowerCase()}">
+                </option>
+            </select>
+            <div class="invalid-feedback d-block">
+                <span th:if="${#fields.hasErrors('priority')}" th:errors="*{priority}"></span>
+            </div>
+        </div>
+
+        <div class="mb-3 text-center">
+            <button type="reset" class="btn btn-outline-secondary me-2">Clear</button>
+            <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+    </form>
+
+    <a th:href="@{|/todos/${todo.id}/read|}" class="btn btn-primary d-block mt-3">Go to Task List</a>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

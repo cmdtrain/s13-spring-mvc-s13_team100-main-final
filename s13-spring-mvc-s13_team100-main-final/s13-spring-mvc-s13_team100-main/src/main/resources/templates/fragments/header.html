@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header Fragment</title>
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .nav-link.login-btn {
+            background-color: #3498db;
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 5px;
+            margin-left: 15px;
+            text-decoration: none;
+        }
+
+        .nav-link.login-btn:hover {
+            background-color: #2980b9;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .navbar-text a {
+            color: #ffeb3b;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+<nav th:fragment="header" class="navbar navbar-expand-lg bg-primary navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">Home</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li th:if="${user_id != null}" class="nav-item">
+                    <a class="nav-link" th:href="@{|/todos/all/users/${user_id}|}">My To-Dos</a>
+                </li>
+                <li th:if="${user_id != null}" class="nav-item">
+                    <a class="nav-link" th:href="@{/users/all}">List of Users</a>
+                </li>
+                <li th:if="${user_id != null}" class="nav-item">
+                    <a class="nav-link" th:href="@{/states}">Manage States</a>
+                </li>
+            </ul>
+            <span th:if="${user_id != null}" class="navbar-text">
+                Hello <a th:href="@{|/users/${user_id}/read|}" th:text="${username}"></a>!
+            </span>
+            <span th:unless="${user_id != null}" class="navbar-text">
+                Hello Guest!
+            </span>
+            <a th:unless="${user_id != null}" class="nav-link login-btn" th:href="@{/login}">Login</a>
+            <form th:if="${user_id != null}" th:action="@{/logout}" method="post" style="display: inline-block; margin-left: 15px;">
+                <input type="submit" class="btn text-white" value="Logout">
+            </form>
+        </div>
+    </div>
+</nav>
+</body>
+</html>
